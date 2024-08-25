@@ -3,6 +3,7 @@ use db::Database;
 
 mod config;
 mod db;
+mod entities;
 
 pub async fn run_app() -> Result<(), std::io::Error> {
     // Load configuration

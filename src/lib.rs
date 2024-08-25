@@ -5,6 +5,7 @@ mod config;
 mod db;
 mod entities;
 mod models;
+mod repositories;
 
 pub async fn run_app() -> Result<(), std::io::Error> {
     // Load configuration

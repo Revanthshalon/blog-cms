@@ -1,4 +1,4 @@
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    Ok(())
+    blog_cms::run_app().await
 }

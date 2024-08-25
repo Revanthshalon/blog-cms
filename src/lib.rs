@@ -7,6 +7,7 @@ mod entities;
 mod handlers;
 mod models;
 mod repositories;
+mod routes;
 mod services;
 
 pub async fn run_app() -> Result<(), std::io::Error> {

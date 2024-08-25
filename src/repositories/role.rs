@@ -3,6 +3,7 @@ use uuid::Uuid;
 
 use crate::models::{RoleListResponse, RoleResponse};
 
+#[derive(Debug, Clone)]
 pub struct RoleRepository {
     pool: MySqlPool,
 }

@@ -4,6 +4,7 @@ use db::Database;
 mod config;
 mod db;
 mod entities;
+mod handlers;
 mod models;
 mod repositories;
 mod services;

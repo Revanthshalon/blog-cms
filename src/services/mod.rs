@@ -6,7 +6,7 @@ mod roles;
 
 #[derive(Debug, Clone)]
 pub struct ServiceContainer {
-    role_service: RoleService,
+    pub role_service: RoleService,
 }
 
 impl ServiceContainer {

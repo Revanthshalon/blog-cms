@@ -78,13 +78,15 @@ impl RoleRepository {
     pub async fn update(
         &self,
         id: Uuid,
-        role_name: &str,
-        description: &str,
+        role_name: Option<String>,
+        description: Option<String>,
     ) -> Result<RoleResponse, sqlx::Error> {
         sqlx::query!(
             r#"
             UPDATE roles
-            SET role_name = ?, description = ?
+            SET
+                role_name = COALESCE(?, role_name),
+                description = COALESCE(?, description)
             WHERE id = ?
             "#,
             role_name,
@@ -93,11 +95,7 @@ impl RoleRepository {
         )
         .execute(&self.pool)
         .await?;
-        let response = RoleResponse {
-            id,
-            role_name: role_name.to_string(),
-            description: Some(description.to_string()),
-        };
+        let response = self.find_by_id(id).await?;
         Ok(response)
     }
 

@@ -84,9 +84,9 @@ impl UserRepository {
     pub async fn update(
         &self,
         id: Uuid,
-        username: &str,
-        email: &str,
-        role_id: Uuid,
+        username: Option<String>,
+        email: Option<String>,
+        role_id: Option<Uuid>,
     ) -> Result<UserResponse, sqlx::Error> {
         // Check if the user exists
         self.find_by_id(id)
@@ -94,7 +94,10 @@ impl UserRepository {
             .map_err(|_| sqlx::Error::RowNotFound)?;
 
         let id_bytes = id.as_bytes().to_vec();
-        let role_id_bytes = role_id.as_bytes().to_vec();
+        let role_id_bytes = match role_id {
+            Some(role_id) => Some(role_id.as_bytes().to_vec()),
+            None => None,
+        };
         sqlx::query_as!(
             UserResponse,
             r#"
@@ -111,12 +114,7 @@ impl UserRepository {
         )
         .execute(&self.pool)
         .await?;
-        let user = UserResponse {
-            id,
-            username: username.to_string(),
-            email: email.to_string(),
-            role_id,
-        };
+        let user = self.find_by_id(id).await?;
         Ok(user)
     }
 

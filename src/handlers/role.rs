@@ -145,28 +145,9 @@ pub async fn update_role_by_id(
             return (status_code, body).into_response();
         }
     };
-    let role_response = service.role_service.find_by_id(role_id).await;
-    let role = match role_response {
-        Ok(role) => role,
-        Err(e) => {
-            let status_code = StatusCode::INTERNAL_SERVER_ERROR;
-            let body = Json(json!({
-                "status": StatusCode::INTERNAL_SERVER_ERROR.to_string(),
-                "code": StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
-                "message": "Failed to get role",
-                "errors": e.to_string(),
-                "timestamp": Utc::now(),
-            }));
-            return (status_code, body).into_response();
-        }
-    };
     let role_result = service
         .role_service
-        .update_by_id(
-            role_id,
-            &payload.role_name.unwrap_or(role.role_name),
-            &payload.description.unwrap_or(role.description.unwrap()),
-        )
+        .update_by_id(role_id, payload.role_name, payload.description)
         .await;
     match role_result {
         Ok(role) => {

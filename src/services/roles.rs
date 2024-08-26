@@ -40,8 +40,8 @@ impl RoleService {
     pub async fn update_by_id(
         &self,
         id: Uuid,
-        role_name: &str,
-        description: &str,
+        role_name: Option<String>,
+        description: Option<String>,
     ) -> Result<RoleResponse, sqlx::Error> {
         self.role_repo.update(id, role_name, description).await
     }

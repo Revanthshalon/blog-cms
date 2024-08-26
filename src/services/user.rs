@@ -44,9 +44,9 @@ impl UserService {
     pub async fn update_by_id(
         &self,
         id: Uuid,
-        username: &str,
-        email: &str,
-        role_id: Uuid,
+        username: Option<String>,
+        email: Option<String>,
+        role_id: Option<Uuid>,
     ) -> Result<UserResponse, sqlx::Error> {
         self.user_repo.update(id, username, email, role_id).await
     }

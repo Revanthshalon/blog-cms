@@ -150,12 +150,7 @@ pub async fn update_user_by_id(
 ) -> Response {
     let user_result = service
         .user_service
-        .update_by_id(
-            payload.id,
-            &payload.username,
-            &payload.email,
-            payload.role_id,
-        )
+        .update_by_id(payload.id, payload.username, payload.email, payload.role_id)
         .await;
     match user_result {
         Ok(user) => {

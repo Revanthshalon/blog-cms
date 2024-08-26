@@ -18,6 +18,7 @@ pub struct Post {
     pub content: String,
     pub user_id: Uuid,
     pub status: PostStatus,
+    pub published_at: DateTime<Utc>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }
@@ -41,6 +42,7 @@ impl FromRow<'_, MySqlRow> for Post {
             content: row.try_get("content")?,
             user_id,
             status,
+            published_at: row.try_get("published_at")?,
             created_at: row.try_get("created_at")?,
             updated_at: row.try_get("updated_at")?,
         })

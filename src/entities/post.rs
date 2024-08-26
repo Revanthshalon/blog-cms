@@ -11,6 +11,16 @@ pub enum PostStatus {
     Archived,
 }
 
+impl PostStatus {
+    pub fn to_str(&self) -> &str {
+        match self {
+            PostStatus::Draft => "draft",
+            PostStatus::Published => "published",
+            PostStatus::Archived => "archived",
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Post {
     pub id: Uuid,

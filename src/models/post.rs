@@ -7,7 +7,7 @@ use crate::entities::PostStatus;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreatePost {
     pub title: String,
-    pub body: String,
+    pub content: String,
     pub status: PostStatus,
     pub published_at: Option<DateTime<Utc>>,
     pub user_id: Uuid,
@@ -17,7 +17,7 @@ pub struct CreatePost {
 pub struct UpdatePost {
     pub id: Uuid,
     pub title: Option<String>,
-    pub body: Option<String>,
+    pub content: Option<String>,
     pub status: Option<PostStatus>,
     pub published_at: Option<DateTime<Utc>>,
     pub user_id: Option<Uuid>,
@@ -27,8 +27,8 @@ pub struct UpdatePost {
 pub struct PostResponse {
     pub id: Uuid,
     pub title: String,
-    pub body: String,
-    pub published: bool,
+    pub content: String,
+    pub status: PostStatus,
     pub published_at: Option<DateTime<Utc>>,
     pub user_id: Uuid,
 }

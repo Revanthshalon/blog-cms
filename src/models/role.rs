@@ -8,20 +8,10 @@ pub struct CreateRole {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct GetRole {
-    pub id: Uuid,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct UpdateRole {
     pub id: Uuid,
-    pub role_name: String,
+    pub role_name: Option<String>,
     pub description: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct DeleteRole {
-    pub id: Uuid,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

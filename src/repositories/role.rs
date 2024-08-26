@@ -30,7 +30,7 @@ impl RoleRepository {
         Ok(RoleListResponse { roles })
     }
 
-    // Find role by id
+    // Create Role
     pub async fn create(
         &self,
         role_name: &str,

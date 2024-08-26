@@ -36,11 +36,10 @@ impl UserRepository {
         username: &str,
         email: &str,
         password: &str,
-        role_id: &str,
+        role_id: Uuid,
     ) -> Result<UserResponse, sqlx::Error> {
         let id = Uuid::new_v4();
         let id_bytes = id.as_bytes().to_vec();
-        let role_id = Uuid::parse_str(role_id).map_err(|e| sqlx::Error::Decode(e.into()))?;
         let role_id_bytes = role_id.as_bytes().to_vec();
         sqlx::query!(
             r#"
@@ -65,8 +64,7 @@ impl UserRepository {
     }
 
     // Find user by id
-    pub async fn find_by_id(&self, id: &str) -> Result<UserResponse, sqlx::Error> {
-        let id = Uuid::parse_str(id).map_err(|e| sqlx::Error::Decode(e.into()))?;
+    pub async fn find_by_id(&self, id: Uuid) -> Result<UserResponse, sqlx::Error> {
         let id_bytes = id.as_bytes().to_vec();
         let user = sqlx::query_as!(
             UserResponse,
@@ -85,19 +83,17 @@ impl UserRepository {
     // Update user
     pub async fn update(
         &self,
-        id: &str,
+        id: Uuid,
         username: &str,
         email: &str,
-        role_id: &str,
+        role_id: Uuid,
     ) -> Result<UserResponse, sqlx::Error> {
         // Check if the user exists
         self.find_by_id(id)
             .await
             .map_err(|_| sqlx::Error::RowNotFound)?;
 
-        let id = Uuid::parse_str(id).map_err(|e| sqlx::Error::Decode(e.into()))?;
         let id_bytes = id.as_bytes().to_vec();
-        let role_id = Uuid::parse_str(role_id).map_err(|e| sqlx::Error::Decode(e.into()))?;
         let role_id_bytes = role_id.as_bytes().to_vec();
         sqlx::query_as!(
             UserResponse,
@@ -125,13 +121,12 @@ impl UserRepository {
     }
 
     // Delete user
-    pub async fn delete(&self, id: &str) -> Result<(), sqlx::Error> {
+    pub async fn delete(&self, id: Uuid) -> Result<(), sqlx::Error> {
         // Check if the user exists
         self.find_by_id(id)
             .await
             .map_err(|_| sqlx::Error::RowNotFound)?;
 
-        let id = Uuid::parse_str(id).map_err(|e| sqlx::Error::Decode(e.into()))?;
         let id_bytes = id.as_bytes().to_vec();
         sqlx::query!(
             r#"

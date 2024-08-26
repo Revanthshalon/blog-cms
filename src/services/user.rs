@@ -46,7 +46,6 @@ impl UserService {
         id: Uuid,
         username: &str,
         email: &str,
-        password: &str,
         role_id: Uuid,
     ) -> Result<UserResponse, sqlx::Error> {
         self.user_repo.update(id, username, email, role_id).await

@@ -14,6 +14,6 @@ pub fn create_role_routes(services: ServiceContainer) -> Router {
         .route("/", get(get_roles))
         .route("/:id", get(get_role_by_id))
         .route("/:id", put(update_role_by_id))
-        .route("/", delete(delete_role_by_id))
+        .route("/:id", delete(delete_role_by_id))
         .with_state(services)
 }

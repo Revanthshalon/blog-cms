@@ -1,11 +1,14 @@
 use axum::Router;
+use health::create_health_routes;
 
 use crate::services::ServiceContainer;
 
+mod health;
 mod role;
 
 pub fn create_api_routes(services: ServiceContainer) -> Router {
     let role_routes = Router::new().nest("/role", role::create_role_routes(services.clone()));
-    let merged_routes = Router::new().merge(role_routes);
+    let health_routes = Router::new().nest("/health", create_health_routes());
+    let merged_routes = Router::new().merge(role_routes).merge(health_routes);
     Router::new().nest("/api", merged_routes)
 }

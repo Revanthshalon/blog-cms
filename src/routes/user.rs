@@ -4,7 +4,7 @@ use axum::{
 };
 
 use crate::{
-    handlers::{create_user, delete_user_by_id, get_user_by_id, get_users, update_user_by_id},
+    handlers::{create_user, delete_user_by_id, get_posts_by_user_id, get_user_by_id, get_users, update_user_by_id},
     services::ServiceContainer,
 };
 
@@ -15,5 +15,6 @@ pub fn create_user_routes(services: ServiceContainer) -> Router {
         .route("/:id", get(get_user_by_id))
         .route("/:id", put(update_user_by_id))
         .route("/:id", delete(delete_user_by_id))
+        .route("/:id/posts", get(get_posts_by_user_id))
         .with_state(services)
 }

@@ -1,6 +1,6 @@
 use crate::{
     entities::PostStatus,
-    models::{PostListResponse, PostResponse, UserResponse},
+    models::{PostListResponse, PostResponse},
 };
 use chrono::{DateTime, Utc};
 use sqlx::MySqlPool;
@@ -27,8 +27,8 @@ impl PostRepository {
             FROM posts
             "#
         )
-        .fetch_all(&self.pool)
-        .await?;
+            .fetch_all(&self.pool)
+            .await?;
 
         Ok(PostListResponse { posts })
     }
@@ -57,8 +57,8 @@ impl PostRepository {
             &published_at,
             user_id_bytes
         )
-        .execute(&self.pool)
-        .await?;
+            .execute(&self.pool)
+            .await?;
         let response = PostResponse {
             id,
             title,
@@ -81,8 +81,8 @@ impl PostRepository {
             "#,
             id.as_bytes().to_vec()
         )
-        .fetch_one(&self.pool)
-        .await?;
+            .fetch_one(&self.pool)
+            .await?;
 
         Ok(post)
     }
@@ -98,8 +98,8 @@ impl PostRepository {
             "#,
             user_id.as_bytes().to_vec()
         )
-        .fetch_all(&self.pool)
-        .await?;
+            .fetch_all(&self.pool)
+            .await?;
 
         Ok(PostListResponse { posts })
     }
@@ -134,9 +134,23 @@ impl PostRepository {
             Some(user_id.as_bytes().to_vec()),
             id.as_bytes().to_vec()
         )
-        .execute(&self.pool)
-        .await?;
+            .execute(&self.pool)
+            .await?;
         let response = self.find_by_id(id).await?;
         Ok(response)
+    }
+
+    // Delete Post
+    pub async fn delete(&self, id: Uuid) -> Result<(), sqlx::Error> {
+        sqlx::query!(
+            r#"
+            DELETE FROM posts
+            WHERE id = ?
+            "#,
+            id.as_bytes().to_vec()
+        )
+            .execute(&self.pool)
+            .await?;
+        Ok(())
     }
 }
